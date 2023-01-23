@@ -119,9 +119,9 @@ Reminder: answer the following questions [here](https://forms.gle/6SM7cu4cYhNsRv
 ## Task 2: implement a "musician" Node.js application
 
 | #        | Topic                                                                               |
-| -------- | ----------------------------------------------------------------------------------- |
+| -------- |-------------------------------------------------------------------------------------|
 | Question | In a JavaScript program, if we have an object, how can we **serialize it in JSON**? |
-|          | _Enter your response here..._                                                       |
+|          | ![diagram](images/architecture_diagram.png)                                         |
 | Question | What is **npm**?                                                                    |
 |          | _Enter your response here..._                                                       |
 | Question | What is the `npm install` command?                                                  |
