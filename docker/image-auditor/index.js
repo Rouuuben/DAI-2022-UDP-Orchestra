@@ -3,7 +3,7 @@ const udpSocket = dgram.createSocket('udp4');
 const net = require('net');
 const dayjs = require('dayjs');
 const relativeTime = require('dayjs/plugin/relativeTime');
-const {TEMPS_INACTIVITE, MULTICAST_PORT, TCP_PORT, INSTRUMENTS_SOUNDS, TCP_HOST} = require("../conf");
+const {TEMPS_INACTIVITE, MULTICAST_PORT, TCP_PORT, INSTRUMENTS_SOUNDS, TCP_HOST} = require("./conf");
 
 dayjs.extend(relativeTime);
 
