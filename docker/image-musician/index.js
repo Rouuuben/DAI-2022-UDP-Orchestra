@@ -42,8 +42,6 @@ const datagram = {
 
 const client = dgram.createSocket('udp4');
 
-console.log("Starting to emit the sound " + emitted_sound + " every " + TEMPS_ENVOI + " ms");
-
 // Envoi d'un datagramme toutes les secondes
 setInterval(() => {
     client.send(JSON.stringify(datagram), MULTICAST_PORT, MULTICAST_GROUP);

@@ -152,7 +152,7 @@ Reminder: answer the following questions [here](https://forms.gle/6SM7cu4cYhNsRv
 | Question | How do we **stop** and **kill** one running container?                                                                                                      |
 |          | Using the `docker stop {id}` command.                                                                                                                       |
 | Question | How can we check that our running containers are effectively sending UDP datagrams?                                                                         |
-|          | By analyzing the network or putting console logs in the auditor/musician.                                                                                   |
+|          | By analyzing the network using `tcpdump` or putting console logs in the auditor/musician.                                                                     |
 
 ## Task 4: implement an "auditor" Node.js application
 
@@ -171,10 +171,10 @@ Reminder: answer the following questions [here](https://forms.gle/6SM7cu4cYhNsRv
 
 ## Task 5: package the "auditor" app in a Docker image
 
-| #        | Topic                                                                                |
-| -------- | ------------------------------------------------------------------------------------ |
-| Question | How do we validate that the whole system works, once we have built our Docker image? |
-|          | _Enter your response here..._                                                        |
+| #        | Topic                                                                                                       |
+| -------- |-------------------------------------------------------------------------------------------------------------|
+| Question | How do we validate that the whole system works, once we have built our Docker image?                        |
+|          | We run the validate.sh script and can control in the [check.log](./check.log) file if there are any errors. |
 
 ## Constraints
 

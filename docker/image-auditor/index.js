@@ -3,7 +3,7 @@ const udpSocket = dgram.createSocket('udp4');
 const net = require('net');
 const dayjs = require('dayjs');
 const relativeTime = require('dayjs/plugin/relativeTime');
-const {TEMPS_INACTIVITE, MULTICAST_PORT, TCP_PORT, INSTRUMENTS_SOUNDS, TCP_HOST, MULTICAST_GROUP} = require("./conf");
+const {TEMPS_INACTIVITE, MULTICAST_PORT, TCP_PORT, INSTRUMENTS_SOUNDS, MULTICAST_GROUP} = require("./conf");
 
 dayjs.extend(relativeTime);
 
@@ -14,15 +14,16 @@ let musicians = new Map();
 udpSocket.on('message', (msg) => {
     const content = JSON.parse(msg.toString());
 
+    // Contrôle que le bruit reçu est bien un bruit d'instrument
     if (!Object.values(INSTRUMENTS_SOUNDS).includes(content.sound)) {
         console.log('Invalid instrument received');
         return;
     }
 
-    console.log('datagram received')
-
     const instrument = Object.keys(INSTRUMENTS_SOUNDS).find(key => INSTRUMENTS_SOUNDS[key] === content.sound);
 
+    // Si le musicien n'est pas dans la liste, on l'ajoute
+    // Sinon, on met à jour la date de dernière activité
     if (musicians.has(content.uuid)) {
         musicians.get(content.uuid).lastActive = dayjs();
     } else {
@@ -49,6 +50,7 @@ const updateActiveMusicians = () => {
     });
 }
 
+// Fonction qui fait le tri et retourne les musiciens actifs
 const getActiveMusicians = () => {
     updateActiveMusicians();
     return Array.from(musicians.values()).map((m) => {
@@ -58,16 +60,18 @@ const getActiveMusicians = () => {
     });
 }
 
+// Binding du socket UDP et écoute sur le groupe multicast
+udpSocket.bind(MULTICAST_PORT, () => {
+    udpSocket.addMembership(MULTICAST_GROUP)
+});
+
 // PARTIE TCP
 
+// Création du serveur TCP
 const tcpServer = net.createServer(function(socket) {
     socket.write(JSON.stringify(getActiveMusicians()));
     socket.end();
 });
 
-tcpServer.listen(TCP_PORT, TCP_HOST);
-
-udpSocket.bind(MULTICAST_PORT, () => {
-    console.log("Joining multicast group");
-    udpSocket.addMembership(MULTICAST_GROUP)
-});
+// Ecoute du port TCP
+tcpServer.listen(TCP_PORT);
