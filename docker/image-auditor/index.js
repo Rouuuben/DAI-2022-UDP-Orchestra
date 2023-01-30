@@ -3,7 +3,7 @@ const udpSocket = dgram.createSocket('udp4');
 const net = require('net');
 const dayjs = require('dayjs');
 const relativeTime = require('dayjs/plugin/relativeTime');
-const {TEMPS_INACTIVITE, MULTICAST_PORT, TCP_PORT, INSTRUMENTS_SOUNDS, TCP_HOST} = require("./conf");
+const {TEMPS_INACTIVITE, MULTICAST_PORT, TCP_PORT, INSTRUMENTS_SOUNDS, TCP_HOST, MULTICAST_GROUP} = require("./conf");
 
 dayjs.extend(relativeTime);
 
@@ -18,6 +18,8 @@ udpSocket.on('message', (msg) => {
         console.log('Invalid instrument received');
         return;
     }
+
+    console.log('datagram received')
 
     const instrument = Object.keys(INSTRUMENTS_SOUNDS).find(key => INSTRUMENTS_SOUNDS[key] === content.sound);
 
@@ -65,4 +67,7 @@ const tcpServer = net.createServer(function(socket) {
 
 tcpServer.listen(TCP_PORT, TCP_HOST);
 
-udpSocket.bind(MULTICAST_PORT);
+udpSocket.bind(MULTICAST_PORT, () => {
+    console.log("Joining multicast group");
+    udpSocket.addMembership(MULTICAST_GROUP)
+});
