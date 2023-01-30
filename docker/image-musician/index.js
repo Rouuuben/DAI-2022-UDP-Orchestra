@@ -1,6 +1,6 @@
 const dgram = require('dgram');
 const {v4: uuidv4} = require('uuid');
-const {MULTICAST_ADDRESS, MULTICAST_PORT, INSTRUMENTS_SOUNDS, TEMPS_ENVOI} = require("../conf");
+const {MULTICAST_ADDRESS, MULTICAST_PORT, INSTRUMENTS_SOUNDS, TEMPS_ENVOI} = require("./conf");
 
 //======================================
 // Création du datagramme en fonction de
@@ -41,6 +41,8 @@ const datagram = {
 //============================
 
 const client = dgram.createSocket('udp4');
+
+console.log("Starting to emit the sound " + emitted_sound + " every " + TEMPS_ENVOI + " ms");
 
 // Envoi d'un datagramme toutes les secondes
 setInterval(() => {

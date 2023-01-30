@@ -118,56 +118,56 @@ Reminder: answer the following questions [here](https://forms.gle/6SM7cu4cYhNsRv
 
 ## Task 2: implement a "musician" Node.js application
 
-| #        | Topic                                                                               |
-| -------- |-------------------------------------------------------------------------------------|
-| Question | In a JavaScript program, if we have an object, how can we **serialize it in JSON**? |
-|          | We can use `JSON.stringify()`                                                       |
-| Question | What is **npm**?                                                                    |
-|          | Node Package Manager, it is used to install packages inside a project.              |
-| Question | What is the `npm install` command?                                                  |
-|          | It installs all the packages and depedencies required for the project to run.       |
-| Question | How can we use the `https://www.npmjs.com/` web site?                               |
-|          | We can search for packages to install.                                              |
-| Question | In JavaScript, how can we **generate a UUID** compliant with RFC4122?               |
-|          | Using the `uuid` package.                                                           |
-| Question | In Node.js, how can we execute a function on a **periodic** basis?                  |
-|          | Using the `setInterval` function (example : `setInterval(() => {}, interval)`)      |
-| Question | In Node.js, how can we **emit UDP datagrams**?                                      |
-|          | _Enter your response here..._                                                       |
-| Question | In Node.js, how can we **access the command line arguments**?                       |
-|          | _Enter your response here..._                                                       |
+| #        | Topic                                                                                           |
+| -------- |-------------------------------------------------------------------------------------------------|
+| Question | In a JavaScript program, if we have an object, how can we **serialize it in JSON**?             |
+|          | We can use `JSON.stringify()`                                                                   |
+| Question | What is **npm**?                                                                                |
+|          | Node Package Manager, it is used to install packages inside a project.                          |
+| Question | What is the `npm install` command?                                                              |
+|          | It installs all the packages and depedencies required for the project to run.                   |
+| Question | How can we use the `https://www.npmjs.com/` web site?                                           |
+|          | We can search for packages to install.                                                          |
+| Question | In JavaScript, how can we **generate a UUID** compliant with RFC4122?                           |
+|          | Using the `uuid` package.                                                                       |
+| Question | In Node.js, how can we execute a function on a **periodic** basis?                              |
+|          | Using the `setInterval` function (example : `setInterval(() => {}, interval)`)                  |
+| Question | In Node.js, how can we **emit UDP datagrams**?                                                  |
+|          | Using the `dgram` package, (with the `Socket.send()` method).                                   |
+| Question | In Node.js, how can we **access the command line arguments**?                                   |
+|          | Using the `process.argv` variable. It returns an array containing all the arguments as strings. |
 
 ## Task 3: package the "musician" app in a Docker image
 
-| #        | Topic                                                                               |
-| -------- | ----------------------------------------------------------------------------------- |
-| Question | How do we **define and build our own Docker image**?                                |
-|          | _Enter your response here..._                                                       |
-| Question | How can we use the `ENTRYPOINT` statement in our Dockerfile?                        |
-|          | _Enter your response here..._                                                       |
-| Question | After building our Docker image, how do we use it to **run containers**?            |
-|          | _Enter your response here..._                                                       |
-| Question | How do we get the list of all **running containers**?                               |
-|          | _Enter your response here..._                                                       |
-| Question | How do we **stop** and **kill** one running container?                              |
-|          | _Enter your response here..._                                                       |
-| Question | How can we check that our running containers are effectively sending UDP datagrams? |
-|          | _Enter your response here..._                                                       |
+| #        | Topic                                                                                                                                                       |
+| -------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Question | How do we **define and build our own Docker image**?                                                                                                        |
+|          | Using the `docker build . -t dai/musician` command inside the image-musician repertory.                                                                     |
+| Question | How can we use the `ENTRYPOINT` statement in our Dockerfile?                                                                                                |
+|          | Instead of the usual CMD statement, like so : `ENTRYPOINT [ "node", "index.js" ]`, it will add all the arguments passed to the run command to the node app. |
+| Question | After building our Docker image, how do we use it to **run containers**?                                                                                    |
+|          | We run the `docker run dai/musician {sound}` command with the required sound.                                                                               |
+| Question | How do we get the list of all **running containers**?                                                                                                       |
+|          | Using the `docker ps` command.                                                                                                                              |
+| Question | How do we **stop** and **kill** one running container?                                                                                                      |
+|          | Using the `docker stop {id}` command.                                                                                                                       |
+| Question | How can we check that our running containers are effectively sending UDP datagrams?                                                                         |
+|          | By analyzing the network or putting console logs in the auditor/musician.                                                                                   |
 
 ## Task 4: implement an "auditor" Node.js application
 
-| #        | Topic                                                                                              |
-| -------- | -------------------------------------------------------------------------------------------------- |
-| Question | With Node.js, how can we listen for UDP datagrams in a multicast group?                            |
-|          | _Enter your response here..._                                                                      |
-| Question | How can we use the `Map` built-in object introduced in ECMAScript 6 to implement a **dictionary**? |
-|          | _Enter your response here..._                                                                      |
-| Question | How can we use the `Day.js` npm module to help us with **date manipulations** and formatting?      |
-|          | _Enter your response here..._                                                                      |
-| Question | When and how do we **get rid of inactive players**?                                                |
-|          | _Enter your response here..._                                                                      |
-| Question | How do I implement a **simple TCP server** in Node.js?                                             |
-|          | _Enter your response here..._                                                                      |
+| #        | Topic                                                                                                                                                                                                                           |
+| -------- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Question | With Node.js, how can we listen for UDP datagrams in a multicast group?                                                                                                                                                         |
+|          | Using the `dgram` package, by binding the listening port and adding an event when a message is received.                                                                                                                        |
+| Question | How can we use the `Map` built-in object introduced in ECMAScript 6 to implement a **dictionary**?                                                                                                                              |
+|          | We store every musician received using the uuid for the key.                                                                                                                                                                    |
+| Question | How can we use the `Day.js` npm module to help us with **date manipulations** and formatting?                                                                                                                                   |
+|          | We can use it to generate the dates stored inside every musician inside the Map. We can then use the diff() method in order to get the amount of milliseconds between a first date (now) and a second (the last received date). |
+| Question | When and how do we **get rid of inactive players**?                                                                                                                                                                             |
+|          | We could get rid of them every X seconds, but that would allow for a small range of error (explained in the function). We preferred to get rid of them on every call (though it is slower).                                     |
+| Question | How do I implement a **simple TCP server** in Node.js?                                                                                                                                                                          |
+|          | Using the `net` package.                                                                                                                                                                                                        |
 
 ## Task 5: package the "auditor" app in a Docker image
 

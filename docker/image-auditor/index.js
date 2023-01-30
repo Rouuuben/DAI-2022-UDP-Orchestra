@@ -1,7 +1,11 @@
 const dgram = require('node:dgram');
 const udpSocket = dgram.createSocket('udp4');
 const net = require('net');
+const dayjs = require('dayjs');
+const relativeTime = require('dayjs/plugin/relativeTime');
 const {TEMPS_INACTIVITE, MULTICAST_PORT, TCP_PORT, INSTRUMENTS_SOUNDS, TCP_HOST} = require("../conf");
+
+dayjs.extend(relativeTime);
 
 // PARTIE UDP
 
@@ -18,13 +22,13 @@ udpSocket.on('message', (msg) => {
     const instrument = Object.keys(INSTRUMENTS_SOUNDS).find(key => INSTRUMENTS_SOUNDS[key] === content.sound);
 
     if (musicians.has(content.uuid)) {
-        musicians.get(content.uuid).lastActive = Date.now();
+        musicians.get(content.uuid).lastActive = dayjs();
     } else {
         musicians.set(content.uuid, {
             uuid: content.uuid,
             instrument,
-            activeSince: (new Date()).toISOString(),
-            lastActive: Date.now()
+            activeSince: dayjs().toISOString(),
+            lastActive: dayjs()
         });
     }
 });
@@ -37,7 +41,7 @@ udpSocket.on('message', (msg) => {
 // résultats faux (musiciens inactifs depuis 5.0 - 5.9 secondes)
 const updateActiveMusicians = () => {
     musicians.forEach((value, key) => {
-        if (Date.now() - value.lastActive > TEMPS_INACTIVITE) {
+        if (dayjs().diff(dayjs(value.lastActive)) > TEMPS_INACTIVITE) {
             musicians.delete(key)
         }
     });
